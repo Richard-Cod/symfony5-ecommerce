@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!
+{% endblock %}
+
+{% block content %}
+
+	<div class="container mt-4">
+		<a class="btn btn-info float-right" href="{{ path('account.adress.add')}}">
+			Ajouter une adresse
+		</a>
+		<p>
+			Gerer vos adresses
+			{{app.user.firstname}}
+		</p>
+
+
+	</div>
+{% endblock %}

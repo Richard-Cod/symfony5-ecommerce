@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier!
+{% endblock %}
+
+{% block content %}
+
+	<div class="container mt-4">
+		{% if items %}
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Subtitle</th>
+						<th scope="col"></th>
+						<th scope="col">Quantité</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in items %}
+
+						<tr>
+							<td>{{item.product.name}}</td>
+							<td>{{item.product.subtitle}}</td>
+							<td>
+								<img height="50px" src="/uploads/{{item.product.illustration}}"/>
+							</td>
+							<td>
+								<a href="{{path('cart.add' , {'id': item.product.id})}}">+</a>
+
+								x{{item.quantity}}
+
+								{% if item.quantity == 1 %}
+									<a onclick="return confirm('Supprimer {{item.product.name}} x {{item.quantity}} ?')" href="{{path('cart.delete' , {'id': item.product.id})}}">
+										-
+									</a>
+								{% else %}
+									<a href="{{path('cart.decrease' , {'id': item.product.id})}}">
+										-
+									</a>
+								{% endif %}
+							</td>
+							<td>
+								<a href="{{path('cart.delete' , {'id': item.product.id})}}">Supprimer</a>
+							</td>
+						</tr>
+
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+		{% else %}
+			<h1>
+				Votre panier est vide
+			</h1>
+
+		{% endif %}
+
+
+	</div>
+
+
+{% endblock %}

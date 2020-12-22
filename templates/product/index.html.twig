@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="row mt-4 container mx-auto">
+
+		<div class="col-md-2">
+
+			<ul class="list-group">
+				<li class="list-group-item-primary d-flex justify-content-between align-items-center">
+					Filtrer par categories
+					{# <span class="badge badge-primary badge-pill">14</span> #}
+				</li>
+
+				{{form(form)}}
+
+				</ul>
+
+			</div>
+
+			<div class="col-md-10">
+				<div class="row">
+
+					{% for product in products %}
+
+						<div class="col-md-4">
+							<div class="card">
+								<img class="card-img-top" src="/uploads/{{product.illustration}}" alt="Card image cap">
+								<div class="card-body">
+									<h5 class="card-title">{{product.name}}</h5>
+									<h6 class="card-title">{{(product.price / 100) |number_format(2, '.', ',') }}
+										€</h6>
+									<p class="card-text">
+										<small class="text-muted">{{product.subtitle}}</small>
+									</p>
+									<a href="{{ path('product' , {'slug': product.slug }) }}">Voir ce produit</a>
+								</div>
+							</div>
+						</div>
+
+					{% else %}
+						<h3 class="mx-auto">
+							Aucun produit correspondant à votre recherche
+						</h3>
+					{% endfor %}
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+
+	{% endblock %}

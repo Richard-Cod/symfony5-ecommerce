@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -23,7 +24,12 @@ class ProductCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name'),
-            //ImageField::new('Illustration')->setBasePath("uploads/"),
+            SlugField::new('slug')->setTargetFieldName('name'),
+            ImageField::new('Illustration')
+                ->setBasePath("uploads/")
+                ->setUploadDir("public/uploads/")
+                ->setUploadedFileNamePattern("[randomhash].[extension]")
+                ->setRequired(false),
             TextField::new('subtitle'),
             TextareaField::new('description'),
             MoneyField::new('price')->setCurrency('EUR'),

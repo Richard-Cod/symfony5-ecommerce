@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="row mt-4 container">
+		<div class="col-md-4">
+			<div class="card">
+				<img class="card-img-top" src="/uploads/{{product.illustration}}" alt="Card image cap">
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">{{product.name}}</h5>
+					<h5 class="card-title float-right">{{(product.price / 100) |number_format(2, '.', ',') }}
+						€</h5>
+
+					<p class="card-text">
+						<small class="text-muted">{{product.subtitle}}</small>
+					</p>
+
+					<p class="card-text">
+						<small class="text-muted">{{product.description}}</small>
+					</p>
+
+
+					<pre>
+						{{ dump(product) }}
+					</pre>
+					<a class="btn btn-primary" href="{{ path('cart.add' , {'id': product.id }) }}">Ajouter au panier</a>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="container mt-3 ">
+		<h3 class="text-center">Meilleurs ventes
+		</h3>
+		<div class="row">
+
+			{% for product in products %}
+
+				<div class="col-md-4">
+					<div class="card">
+						<img class="card-img-top" src="/uploads/{{product.illustration}}" alt="Card image cap">
+						<div class="card-body">
+							<h5 class="card-title">{{product.name}}</h5>
+							<h6 class="card-title">{{(product.price / 100) |number_format(2, '.', ',') }}
+								€</h6>
+							<p class="card-text">
+								<small class="text-muted">{{product.subtitle}}</small>
+							</p>
+							<a href="{{ path('product' , {'slug': product.slug }) }}">Voir ce produit</a>
+						</div>
+					</div>
+				</div>
+
+
+			{% endfor %}
+		</div>
+
+
+	</div>
+
+
+{% endblock %}

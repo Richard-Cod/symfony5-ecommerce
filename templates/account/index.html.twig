@@ -5,12 +5,27 @@
 
 {% block content %}
 
-	<p>
-		Bienvenue sur votre compte
-		{{app.user.firstname}}
-	</p>
+	<div class="container mt-4">
+		<p>
+			Bienvenue sur votre compte
+			{{app.user.firstname}}
+		</p>
 
-	<a href="{{path('account.updatepassword')}}">
-		Modifier mon mot de passe
-	</p>
+
+		<ul class="list-group">
+			<li class="list-group-item">
+				<a href="{{path('account.updatepassword')}}">
+					Modifier mon mot de passe
+				</a>
+			</li>
+			<li class="list-group-item">
+				<a href="{{path('account.adress')}}">
+					Gérer mes adresses
+				</a>
+			</li>
+		</ul>
+
+	</div>
+
+
 {% endblock %}
