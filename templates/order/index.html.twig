@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!
+{% endblock %}
+
+{% block content %}
+	<div class="mt-4 container mx-auto">
+
+
+		<h5 class="text-center">
+			Choisissez vos préferences avant de passer votre commande
+		</h5>
+		<br/>
+
+		<div class="row">
+
+				<div class="col-md-6">
+					{{form_start(form,{'action' : path('order.add')})}}
+
+
+{{form_row(form.adress)}}
+{{form_row(form.carrier)}}
+
+
+				<button type="submit" class="btn btn-info btn-block">
+					Valider votre commande
+				</button>
+
+				{{form_end(form)}}
+
+
+				</div>
+
+
+
+				<div class="col-md-6">
+					<p class="text-center">
+						Récapitulatif de votre commande
+					</p>
+			<table class="table">
+
+					<tbody>
+						{% for item in cart %}
+	
+							<tr>
+								<td>
+									<img height="50px" src="/uploads/{{item.product.illustration}}"/>
+								</td>
+								<td colspan="2">{{item.product.name}} <br> {{item.product.subtitle}} </td>
+
+								<td>
+	
+									x{{item.quantity}}
+	
+								</td>
+							
+							</tr>
+	
+	
+						{% endfor %}
+	
+	
+					</tbody>
+
+			</table>
+
+					
+
+
+				</div>
+			</div>
+
+		</div>
+
+	{% endblock %}

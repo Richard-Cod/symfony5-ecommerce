@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!
+{% endblock %}
+
+{% block script %}
+<script src="https://js.stripe.com/v3/"></script>
+
+{% endblock %}
+
+
+
+{% block content %}
+	<div class="mt-4 container mx-auto">
+		
+
+
+		<h5 class="text-center">
+			Vérification des informations de votre commande
+		</h5>
+		<br/>
+
+		<div class="row">
+			
+
+				<div class="col-md-6">
+					<p class="text-center">
+						Adresse de livraison
+					</p>
+					<div class="card">
+						<p>{{order.adress|raw}}</p>
+					</div>
+
+					<hr>
+
+					<p class="text-center">
+						Mon transporteur
+					</p>
+					<div class="card">
+						{{carrier.name}}  <br>
+						{{carrier.description}} <br>
+					</div>
+
+
+				</div>
+
+
+
+				<div class="col-md-6">
+					<p class="text-center">
+						Récapitulatif de votre commande
+					</p>
+			<table class="table">
+				{% set total = 0 %}
+
+					<tbody>
+						{% for item in cart %}
+	
+							<tr>
+								<td>
+									<img height="50px" src="/uploads/{{item.product.illustration}}"/>
+								</td>
+								<td colspan="2">{{item.product.name}} <br> {{item.product.subtitle}} </td>
+
+								<td>
+									x{{item.quantity}}
+								</td>
+
+								<td>
+									{{(item.product.price / 100 )|number_format(2, '.', ',')}} €
+								</td>
+							
+							</tr>
+	
+							{% set total = total + item.product.price * item.quantity %}
+	
+						{% endfor %}
+	
+	
+					</tbody>
+
+			</table>
+
+
+			<p>Frais livraison ; {{carrier.price|number_format(2, '.', ',')}} €</p>
+			<p>Frais total {{(total / 100 )|number_format(2, '.', ',')}} €</p>
+
+			<button class="btn-block btn btn-info" id="checkout-button">
+
+				Payer {{(total / 100 )|number_format(2, '.', ',')}} €
+
+			</button>
+					
+
+
+				</div>
+			</div>
+
+		</div>
+
+	{% endblock %}
+
+
+
+	{% block javaScript %}
+<script type="text/javascript">
+
+    // Create an instance of the Stripe object with your publishable API key
+
+    var stripe = Stripe("pk_test_51HoS5CJk6zjYQ0dcPCQaD64jp4bRnua33VzBqfI6BJRnR0zCl0G9XIkl0cfumU96vQlIOSzPgkYb8bLha827AGLO0034uFzTxl");
+
+    var checkoutButton = document.getElementById("checkout-button");
+
+    checkoutButton.addEventListener("click", function () {
+
+      fetch("{{path('stripe',{'reference' : reference })}}", {
+        method: "POST",
+      })
+
+        .then(function (response) {
+
+          return response.json();
+
+        })
+
+        .then(function (session) {
+
+			if(session.error === "Order"){
+
+				alert("Erreur cette commande n'existe pas ou n'est pas la votre ");
+				return;
+			}
+
+          return stripe.redirectToCheckout({ sessionId: session.id });
+
+        })
+
+        .then(function (result) {
+
+          // If redirectToCheckout fails due to a browser or network
+
+          // error, you should display the localized error message to your
+
+          // customer using error.message.
+
+          if (result.error) {
+
+            alert(result.error.message);
+
+          }
+
+        })
+
+        .catch(function (error) {
+
+          console.error("Error:", error);
+
+        });
+
+    });
+
+  </script>
+
+{% endblock %}
