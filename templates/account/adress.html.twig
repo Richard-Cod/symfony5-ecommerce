@@ -14,6 +14,35 @@
 			{{app.user.firstname}}
 		</p>
 
+		<div class="row">
+
+
+			{% for add in app.user.adresses %}
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Nom :
+								{{add.name}}</h5>
+							<h5 class="card-title">Ville :
+								{{add.city}}</h5>
+							<h5 class="card-title">Pays :{{add.country}}</h5>
+							<p class="card-text">Lieu :{{add.address}}</p>
+
+							<pre>
+							{{ dump(add) }}
+						</pre>
+							<a href="{{path('account.adress.edit' , {'id' : add.id})}}" class="btn btn-primary">Editer
+							</a>
+							<a href="{{path('account.adress.delete' , {'id' : add.id})}}" class="btn btn-danger">Supprimer
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+			{% endfor %}
+		</div>
+
 
 	</div>
 {% endblock %}
