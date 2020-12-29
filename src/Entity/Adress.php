@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AdressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdressRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=AdressRepository::class)
  */
 class Adress

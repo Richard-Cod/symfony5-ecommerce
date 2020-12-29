@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CarrierRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CarrierRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=CarrierRepository::class)
  */
 class Carrier

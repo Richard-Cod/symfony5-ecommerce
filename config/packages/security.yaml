@@ -16,15 +16,34 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-    main:
+
+    api:
+      pattern: ^/api/
+      stateless: true
       anonymous: true
-      lazy: true
       provider: app_user_provider
       guard:
         authenticators:
-          - App\Security\LoginFormAuthenticator
+          - lexik_jwt_authentication.jwt_token_authenticator
+    main:
+      stateless: true
+      anonymous: true
+      lazy: true
+      provider: app_user_provider
+      json_login:
+        check_path: /authentication_token
+        username_path: email
+        password_path: password
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
+
       logout:
         path: app_logout
+
         # where to redirect after logout
         # target: app_any_route
 
@@ -40,3 +59,7 @@ security:
     # - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/compte, roles: ROLE_USER }
     - { path: ^/commande, roles: ROLE_USER }
+    - { path: ^/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Allows accessing the Swagger UI
+
+    - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/products, roles: IS_AUTHENTICATED_FULLY }
